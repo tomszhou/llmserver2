@@ -1,0 +1,44 @@
+{
+    "version": 1,
+    "loggers": {
+        "llmserver2": {"level": "INFO", "handlers": ["info-file"]},
+        "uvicorn": {"level": "INFO", "handlers": ["info-file"]},
+        "uvicorn.error": {"level": "ERROR", "handlers": ["error-file"], "propagate" : false},
+        "uvicorn.acces": {"level": "INFO", "handlers": ["access-file"], "propagate" : false}
+    },
+    "handlers": {
+            "info-file": {
+                "class": "logging.handlers.TimedRotatingFileHandler",
+                "formatter": "generic",
+                "when": "midnight",
+                "backupCount": 30,
+                "filename": "/home/baichuan/logs/llminf.log"
+            },
+            "error-file": {
+                "class": "logging.handlers.TimedRotatingFileHandler",
+                "formatter": "generic",
+                "when": "midnight",
+                "backupCount": 30,
+                "filename": "/home/baichuan/logs/llmerr.log"
+            },
+            "access-file": {
+                "class": "logging.handlers.TimedRotatingFileHandler",
+                "formatter": "uvicorn.access",
+                "when": "midnight",
+                "backupCount": 30,
+                "filename": "/home/baichuan/logs/llmacc.log"
+            }
+        },
+        "formatters": {
+            "generic": {
+                "format": "[%(asctime)s] [%(process)d] [%(levelname)s] [%(name)s] [Line:%(lineno)d] %(message)s",
+                "datefmt": "[%Y-%m-%d %H:%M:%S]",
+                "class": "logging.Formatter"
+            },
+            "uvicorn.access" : {
+                "format": "%(levelprefix)s %(host)s - [%(asctime)s] %(request_line)s %(status_code)s",
+                "datefmt": "[%Y-%m-%d %H:%M:%S]",
+                "class": "logging.Formatter"
+            }
+        }
+    }

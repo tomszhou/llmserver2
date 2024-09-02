@@ -1,0 +1,13 @@
+[Unit]
+Description=llmserver.service
+After=network.target
+
+[Service]
+User=baichuan
+Group=baichuan
+WorkingDirectory=/home/baichuan/projects/llmserver2
+LLMSERVER2-CFG=/home/baichuan/projects/llmserver2/.env
+ExecStart=/home/baichuan/.venv/bin/uvicorn main:app --host 0.0.0.0 --port 9002 --workers 2
+
+[Install]
+WantedBy=multi-user.target
